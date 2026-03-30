@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: ships-server
-          image: zago0/ships-server
+          image: zago0/ships-server:1.1
           ports:
             - containerPort: 3000
           env:
