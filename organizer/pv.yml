@@ -28,4 +28,4 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      id: organizer-pv-volume
+      type: organizer-pv-volume
