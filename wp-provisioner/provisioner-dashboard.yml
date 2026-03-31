@@ -23,7 +23,7 @@ spec:
       labels:
         app: wp-provisioner
     spec:
-      serviceAccountName: argocd-provisioner
+      serviceAccountName: wp-provisioner
       containers:
         - name: wp-provisioner
           image: zago0/wp-provisioner-dashboard:1.2
