@@ -1,0 +1,6 @@
+host: organizer-stage.zagoapps.com
+persistence:
+  storageClass: local-path
+sealedSecrets:
+  # TODO: seal fresh secrets for namespace "organizer-stage" and populate here
+  encryptedData: {}

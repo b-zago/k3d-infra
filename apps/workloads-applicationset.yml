@@ -7,14 +7,20 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: https://github.com/b-zago/k3d-infra
-        revision: HEAD
-        directories:
-          - path: apps/workloads/*
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - env: prod
+                - env: stage
+          - git:
+              repoURL: https://github.com/b-zago/k3d-infra
+              revision: HEAD
+              directories:
+                - path: apps/workloads/*
   template:
     metadata:
-      name: "{{.path.basename}}"
+      name: "{{.path.basename}}-{{.env}}"
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.io
@@ -24,9 +30,12 @@ spec:
         repoURL: https://github.com/b-zago/k3d-infra
         targetRevision: HEAD
         path: "{{.path.path}}"
+        helm:
+          valueFiles:
+            - values-{{.env}}.yml
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{.path.basename}}"
+        namespace: "{{.path.basename}}-{{.env}}"
       syncPolicy:
         syncOptions:
           - CreateNamespace=true

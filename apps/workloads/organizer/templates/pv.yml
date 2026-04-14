@@ -1,0 +1,45 @@
+{{- if .Values.persistence.storageClass }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: organizer-pv-claim
+spec:
+  storageClassName: {{ .Values.persistence.storageClass }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+{{- else }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Namespace }}-pv-volume
+  labels:
+    type: {{ .Release.Namespace }}-local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.persistence.hostPath | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: organizer-pv-claim
+  labels:
+    type: {{ .Release.Namespace }}-local-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: {{ .Release.Namespace }}-local
+{{- end }}

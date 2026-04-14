@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: organizer.zagoapps.com
+    - host: {{ .Values.host }}
       http:
         paths:
           - path: /
@@ -20,5 +20,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - organizer.zagoapps.com
+        - {{ .Values.host }}
       secretName: organizer-server-tls
