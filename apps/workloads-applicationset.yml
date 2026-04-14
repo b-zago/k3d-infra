@@ -23,7 +23,7 @@ spec:
       name: "{{.path.basename}}-{{.env}}"
       namespace: argocd
       finalizers:
-        - resources-finalizer.argocd.io
+        - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       source:
