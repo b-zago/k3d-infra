@@ -4,6 +4,7 @@ metadata:
   name: organizer-db-service
 spec:
   type: ClusterIP
+  clusterIP: None
   selector:
     app: organizer-db
   ports:
@@ -11,26 +12,22 @@ spec:
       targetPort: 5432
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: organizer-db-deployment
+  name: organizer-db
   labels:
     app: organizer-db
 spec:
+  serviceName: organizer-db-service
   replicas: 1
   selector:
     matchLabels:
       app: organizer-db
   template:
     metadata:
-      name: organizer-db
       labels:
         app: organizer-db
     spec:
-      volumes:
-        - name: organizer-pv-storage
-          persistentVolumeClaim:
-            claimName: organizer-pv-claim
       containers:
         - name: organizer-db
           image: zago0/organizer-postgres:1.3
@@ -55,3 +52,17 @@ spec:
           volumeMounts:
             - mountPath: "/var/lib/postgresql"
               name: organizer-pv-storage
+  volumeClaimTemplates:
+    - metadata:
+        name: organizer-pv-storage
+      spec:
+        {{- if not .Values.persistence.storageClass }}
+        storageClassName: manual
+        selector:
+          matchLabels:
+            type: {{ .Release.Namespace }}-local
+        {{- end }}
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

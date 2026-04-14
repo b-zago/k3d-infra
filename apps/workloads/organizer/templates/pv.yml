@@ -25,21 +25,4 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: {{ .Values.persistence.hostPath | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: organizer-pv-claim
-  labels:
-    type: {{ .Release.Namespace }}-local-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      type: {{ .Release.Namespace }}-local
 {{- end }}
