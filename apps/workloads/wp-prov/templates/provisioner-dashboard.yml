@@ -33,5 +33,9 @@ spec:
           env:
             - name: MAX_WORDPRESS_INSTANCES
               value: "2"
+            - name: PROD_DEPLOY
+              value: {{ if eq .Values.env "prod" }}"1"{{ else }}"0"{{ end }}
+            - name: WP_PROV_DEV
+              value: 0
           ports:
             - containerPort: 8000
