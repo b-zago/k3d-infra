@@ -36,6 +36,6 @@ spec:
             - name: PROD_DEPLOY
               value: {{ if eq .Values.env "prod" }}"1"{{ else }}"0"{{ end }}
             - name: WP_PROV_DEV
-              value: 0
+              value: "0"
           ports:
             - containerPort: 8000
