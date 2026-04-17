@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
+  goTemplateOptions: [ "missingkey=error" ]
   generators:
     - matrix:
         generators:
@@ -17,7 +17,7 @@ spec:
               repoURL: https://github.com/b-zago/k3d-infra
               revision: HEAD
               directories:
-                - path: apps/workloads/*
+                - path: cluster/workloads/*
   template:
     metadata:
       name: "{{.path.basename}}-{{.env}}"

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-app
+  name: cluster-config
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,11 +10,13 @@ spec:
   source:
     repoURL: https://github.com/b-zago/k3d-infra
     targetRevision: HEAD
-    path: apps/infra/
+    path: cluster/infra/cluster-config/
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: cluster-config
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
