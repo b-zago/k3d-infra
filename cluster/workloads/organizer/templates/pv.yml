@@ -1,16 +1,4 @@
-{{- if .Values.persistence.storageClass }}
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: organizer-pv-claim
-spec:
-  storageClassName: {{ .Values.persistence.storageClass }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-{{- else }}
+{{- if not .Values.persistence.storageClass }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
