@@ -23,6 +23,8 @@ spec:
       labels:
         app: portfolio-server
     spec:
+      imagePullSecrets:
+        - name: ghcr-creds
       containers:
         - name: portfolio-server
           image: {{ .Values.images.server }}
