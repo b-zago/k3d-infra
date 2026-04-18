@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/b-zago/k3d-infra
+    repoURL: https://github.com/b-zago/k3s-cluster
     targetRevision: HEAD
     path: cluster/cloud/
   destination:

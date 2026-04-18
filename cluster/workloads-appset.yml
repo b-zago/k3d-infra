@@ -14,7 +14,7 @@ spec:
                 - env: prod
                 - env: stage
           - git:
-              repoURL: https://github.com/b-zago/k3d-infra
+              repoURL: https://github.com/b-zago/k3s-cluster
               revision: HEAD
               directories:
                 - path: cluster/workloads/*
@@ -29,7 +29,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/b-zago/k3d-infra
+        repoURL: https://github.com/b-zago/k3s-cluster
         targetRevision: HEAD
         path: "{{.path.path}}"
         helm:

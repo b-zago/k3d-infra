@@ -1,4 +1,4 @@
-# k3d-infra
+# k3s-cluster
 
 GitOps source of truth for my k3d cluster. ArgoCD watches this repo and reconciles the cluster to match it.
 
@@ -8,7 +8,7 @@ Uses the **app-of-apps** pattern. A single root Application points at [apps/](ap
 
 ```mermaid
 graph TD
-    GH[GitHub: b-zago/k3d-infra]
+    GH[GitHub: b-zago/k3s-cluster]
     ROOT[root-app]
     CC[cluster-config]
     CM[cert-manager]
