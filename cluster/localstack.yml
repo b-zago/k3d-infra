@@ -14,16 +14,9 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: localstack
-  ignoreDifferences:
-    - group: networking.k8s.io
-      kind: Ingress
-      name: localstack
-      jsonPointers:
-        - /metadata/annotations/nginx.ingress.kubernetes.io~1whitelist-source-range
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - RespectIgnoreDifferences=true

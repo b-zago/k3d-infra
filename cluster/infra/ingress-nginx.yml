@@ -14,16 +14,6 @@ spec:
     helm:
       values: |
         controller:
-          hostNetwork: true
-          hostPort:
-            enabled: true
-          dnsPolicy: ClusterFirstWithHostNet
-          service:
-            type: ClusterIP
-          config:
-            use-forwarded-headers: "false"
-            compute-full-forwarded-for: "false"
-            use-proxy-protocol: "false"
           extraArgs:
             enable-ssl-passthrough: ""
   destination:

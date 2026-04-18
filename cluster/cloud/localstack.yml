@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: localstack
 spec:
+  type: ClusterIP
   selector:
     app: localstack
   ports:
