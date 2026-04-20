@@ -25,6 +25,6 @@ provider "aws" {
     sts          = "http://localhost:4566"
     cloudwatch   = "http://localhost:4566"
     logs         = "http://localhost:4566"
-    s3           = "http://localhost:4566"
+    s3           = "http://s3.localhost.localstack.cloud:4566"
   }
 }
