@@ -11,7 +11,6 @@ graph TD
     GH[GitHub: b-zago/k3s-cluster]
     ROOT[root-app]
     INFRA[infra-app]
-    CLOUD[localstack]
     AS[workloads ApplicationSet]
 
     CC[cluster-config]
@@ -39,7 +38,6 @@ graph TD
 
     GH -->|polled by ArgoCD| ROOT
     ROOT --> INFRA
-    ROOT --> CLOUD
     ROOT --> AS
 
     INFRA --> CC
@@ -68,7 +66,6 @@ Push to `main` → ArgoCD notices → cluster converges. All Applications have `
 
 - [cluster/root-app.yml](cluster/root-app.yml) — the root Application; bootstrap this one manifest and it pulls in everything else.
 - [cluster/infra.yml](cluster/infra.yml) — wraps [cluster/infra/](cluster/infra/): cluster-config, cert-manager, ingress-nginx, and sealed-secrets.
-- [cluster/localstack.yml](cluster/localstack.yml) — wraps [cluster/cloud/](cluster/cloud/): the LocalStack deployment plus its PVC and sealed auth secret.
 - [cluster/workloads-appset.yml](cluster/workloads-appset.yml) — an ApplicationSet with a matrix generator that crosses every directory in [cluster/workloads/](cluster/workloads/) with `{prod, stage}`, producing one Application per `(app, env)` pair.
 
 ## Infra
@@ -89,7 +86,7 @@ Each subdirectory of [cluster/workloads/](cluster/workloads/) is a Helm chart. T
 
 ## Terraform
 
-- [terraform/](terraform/) — defines all AWS resources emulated by LocalStack.
+- [terraform/](terraform/) — defines AWS resources against LocalStack. Developed and tested against a local LocalStack instance on my machine, not deployed to the cluster.
 
 ## CI/CD
 
