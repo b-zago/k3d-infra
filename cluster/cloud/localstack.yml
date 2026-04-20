@@ -45,6 +45,8 @@ spec:
               value: bridge
             - name: LOCALSTACK_HOST
               value: "172.17.0.1:4566"
+            - name: LOCALSTACK_HOSTNAME
+              value: "172.17.0.1"
           volumeMounts:
             - name: data
               mountPath: /var/lib/localstack
