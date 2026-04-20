@@ -42,7 +42,7 @@ spec:
             - name: DOCKER_HOST
               value: tcp://localhost:2375
             - name: LAMBDA_DOCKER_NETWORK
-              value: host
+              value: bridge
           volumeMounts:
             - name: data
               mountPath: /var/lib/localstack
