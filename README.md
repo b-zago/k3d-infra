@@ -84,10 +84,6 @@ Each subdirectory of [cluster/workloads/](cluster/workloads/) is a Helm chart. T
 - [portfolio](cluster/workloads/portfolio/) — portfolio site.
 - [wp-prov](cluster/workloads/wp-prov/) — WordPress provisioner dashboard. Uses [charts/wp-chart/](charts/wp-chart/) at runtime to spin up WordPress instances on demand.
 
-## Terraform
-
-- [terraform/](terraform/) — defines AWS resources against LocalStack. Developed and tested against a local LocalStack instance on my machine, not deployed to the cluster.
-
 ## CI/CD
 
 The `images.server` fields in each workload's `values-prod.yml` / `values-stage.yml` are updated by GitHub Actions in the upstream application repos. When an app repo builds a new image, its workflow bumps the tag here and commits — ArgoCD picks up the change and rolls out the new version.
