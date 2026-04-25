@@ -1,4 +1,4 @@
-host: wp-provv-stage.zagoapps.com
+host: wp-prov-stage.zagoapps.com
 env: stage
 sealedSecrets:
   encryptedData:
