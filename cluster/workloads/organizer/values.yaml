@@ -1,6 +1,7 @@
 host: ""
 persistence:
-  storageClass: ""  # empty => manual hostPath PV; set => dynamic PVC via this SC
+  storageClass: "" # empty => manual hostPath PV; set => dynamic PVC via this SC
   hostPath: ""
 sealedSecrets:
   encryptedData: {}
+namespace: ""
