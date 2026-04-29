@@ -17,17 +17,19 @@ spec:
               repoURL: https://github.com/b-zago/k3s-cluster
               revision: HEAD
               directories:
+                - path: cluster/workloads/portfolio
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - env: prod
+          - git:
+              repoURL: https://github.com/b-zago/k3s-cluster
+              revision: HEAD
+              directories:
                 - path: cluster/workloads/*
-      selector:
-        matchExpressions:
-          - key: path.path
-            operator: NotIn
-            values:
-              - cluster/workloads/portfolio
-          - key: env
-            operator: In
-            values:
-              - stage
+                - path: cluster/workloads/portfolio
+                  exclude: true
   template:
     metadata:
       name: "{{.path.basename}}-{{.env}}"
