@@ -1,3 +1,4 @@
-host: zagoapps.com
+host: ""
 images:
-  server: zago0/portfolio:1.0
+  server: ""
+namespace: ""
