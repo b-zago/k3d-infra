@@ -33,4 +33,4 @@ spec:
             - containerPort: 8000
           envFrom:
             - secretRef:
-              name: nyanify-secrets
+                name: nyanify-secrets
