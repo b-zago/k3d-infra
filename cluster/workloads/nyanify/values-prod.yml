@@ -1,0 +1,9 @@
+host: "nyanify.zagoapps.com"
+sealedSecrets:
+  encryptedData:
+    HMAC_KEY: ""
+    TOKEN: ""
+  encryptedToken:
+    .dockerconfigjson:
+images:
+  server: ""
