@@ -3,6 +3,8 @@ kind: ApplicationSet
 metadata:
   name: workloads-prod
   namespace: argocd
+  labels:
+    part-of: prod-app
 spec:
   goTemplate: true
   goTemplateOptions: [ "missingkey=error" ]
@@ -22,7 +24,7 @@ spec:
       namespace: argocd
       labels:
         appset: workloads-prod
-        type: workload
+        part-of: prod-app
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -32,16 +34,13 @@ spec:
         targetRevision: HEAD
         path: "{{.chartPath}}"
         helm:
-          values: |
-            namespace: {{.appName}}-prod
           valueFiles:
+            - values.yaml
             - values-prod.yml
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{.appName}}-prod"
+        namespace: prod
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true

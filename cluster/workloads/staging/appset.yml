@@ -1,8 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: workloads-stage
+  name: workloads-staging
   namespace: argocd
+  labels:
+    part-of: staging-app
 spec:
   goTemplate: true
   goTemplateOptions: [ "missingkey=error" ]
@@ -13,16 +15,16 @@ spec:
               repoURL: https://github.com/b-zago/k3s-cluster
               revision: HEAD
               files:
-                - path: cluster/workloads/stage/paths.yml
+                - path: cluster/workloads/staging/paths.yml
           - list:
-              elementsYaml: "{{ .key.stage | toJson }}"
+              elementsYaml: "{{ .key.staging | toJson }}"
   template:
     metadata:
-      name: "{{.appName}}-stage"
+      name: "{{.appName}}"
       namespace: argocd
       labels:
-        appset: workloads-stage
-        type: workload
+        appset: workloads-staging
+        part-of: staging-app
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -32,16 +34,13 @@ spec:
         targetRevision: HEAD
         path: "{{.chartPath}}"
         helm:
-          values: |
-            namespace: {{.appName}}-stage
           valueFiles:
-            - values-stage.yml
+            - values.yaml
+            - values-staging.yml
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{.appName}}-stage"
+        namespace: staging
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
