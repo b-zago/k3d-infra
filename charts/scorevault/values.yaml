@@ -33,7 +33,7 @@ secrets:
 
 deployments:
   - name: web-server
-    image: ghcr.io/b-zago/scorevault/web-server:latest
+    image: ghcr.io/b-zago/scorevault/webserver:latest
     runsOn: python
     component: server
     containerPort: 8000

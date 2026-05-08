@@ -31,7 +31,7 @@ secrets:
 
 deployments:
   - name: web-server
-    image: ghcr.io/b-zago/scorevault/web-server:latest
+    image: ghcr.io/b-zago/scorevault/webserver:latest
     imagePullSecret: ghcr-creds
     runsOn: python
     component: server
