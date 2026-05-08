@@ -22,7 +22,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: stage-app
+  name: staging-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
