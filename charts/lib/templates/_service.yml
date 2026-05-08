@@ -1,0 +1,20 @@
+{{- define "lib.service" -}}
+{{- range .Values.services -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+  labels:
+    runs-on: {{ .runsOn }}
+    instance: {{ $.Release.Name }}-{{ .name }}
+    component: {{ .component | default "service" }}
+    part-of: {{ $.Release.Name }}
+spec:
+  selector:
+    app: {{ $.Release.Name }}-{{ .runsOn }}
+  ports:
+    - port: {{ .port | default 80 }}
+      targetPort: {{ .targetPort }}
+---
+{{- end -}}
+{{- end -}}

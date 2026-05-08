@@ -1,13 +1,41 @@
-host: ""
-name: ""
-sealedSecrets:
-  encryptedData:
-    HMAC_KEY: ""
-    TOKEN: ""
-  encryptedToken:
-    .dockerconfigjson: ""
-images:
-  server: ""
-namespace: ""
-instanceType: ""
-webserverInstanceName: ""
+env: ""
+
+#scoped to ns anyway so its fine being here
+imagePullSecret: ghcr-creds
+
+services:
+  - name: webServerSvc
+    runsOn: webServer
+    port: 80
+    targetPort: 8000
+
+routes:
+  - name: webServerRoute
+    runsOn: webServerSvc
+    host: nyanify.zagoapps.com
+
+secrets:
+  - name: webServerEnvs
+    runsOn: webServer
+    runsOnList:
+      - webServer
+    data:
+      HMAC_KEY: ""
+      TOKEN: ""
+
+deployments:
+  - name: webServer
+    image: ghcr.io/b-zago/nyanify/webserver:latest
+    runsOn: python
+    component: server
+    containerPort: 8000
+    envSecretRef: webServerEnvs
+
+#headless service created automatically here
+statefulSets:
+  - name: db
+    runsOn: postgresql
+    image: ghcr.io/b-zago/nyanify/db:latest
+    component: db
+    mounPath: /var/lib/postgresql #container mountpath
+    storage: 1Gi

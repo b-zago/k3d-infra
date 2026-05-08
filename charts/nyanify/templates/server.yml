@@ -21,7 +21,7 @@ metadata:
   name: nyanify-server
   labels:
     runs-on: {{ .Values.name }}-httproute
-    instance: {{ .Values.name }}-{{ .Values. }}
+    instance: {{ .Values.name }}-{{ .Values.webServerInstanceName }}
     component: server
     part-of: {{ .Values.name }}
 spec:
@@ -45,3 +45,5 @@ spec:
           envFrom:
             - secretRef:
                 name: nyanify-secrets
+          
+

@@ -1,26 +1,28 @@
 {{- define "lib.route" -}}
+{{- range .Values.routes -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ .Values.name }}-httproute
-  namespace: {{ .Values.namespace }}
+  name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    runs-on: {{ .Values.namespace }}-gateway
-    instance: {{ .Values.name }}-httproute
-    component: httproute
-    part-of: {{ .Values.name }}
+    runs-on: {{ .runsOn }}
+    instance: {{ $.Release.Name }}-{{ .name }}
+    component: {{ .component | default "httpRoute" }}
+    part-of: {{ $.Release.Name }}
 spec:
   parentRefs:
-    - name: {{ .Values.namespace }}-gateway
+    - name: {{ $.Values.env }}-gateway
       kind: Gateway
   hostnames:
-    - {{ .Values.host }}
+    - {{ .host }}
   rules:
      - matches:
         - path:
             type: PathPrefix
             value: /
        backendRefs:
-        - name: {{ .Values.name }}-{{ .Values.env }}-service-external
-          port: 80
+        - name: {{ $.Release.Name }}-{{ .runsOn }}
+          port: {{ .port | default 80 }}
+---
+{{- end -}}
 {{- end -}}

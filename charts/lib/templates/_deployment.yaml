@@ -1,0 +1,49 @@
+{{- define "lib.deployment" -}}
+{{- range .Values.deployments -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+  labels:
+    runs-on: {{ .runsOn }}
+    instance: {{ $.Release.Name }}-{{ .name }}
+    component: {{ .component }}
+    part-of: {{ $.Release.Name }}
+spec:
+  replicas: {{ .replicas | default 1 }}
+  selector:
+    matchLabels:
+      instance: {{ $.Release.Name }}-{{ .name }}
+  template:
+    metadata:
+      labels:
+        runs-on: {{ .runsOn }}
+        instance: {{ $.Release.Name }}-{{ .name }}
+        component: {{ .component }}
+        part-of: {{ $.Release.Name }}
+    spec:
+      {{- if $.Values.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ $.Values.imagePullSecret }}
+      {{- end }}
+      containers:
+        - name: {{ $.Release.Name }}-{{ .name }}
+          image: {{ .image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .containerPort }}
+          {{- if .envSecretRef }}
+          envFrom:
+            - secretRef:
+                name: {{ $.Release.Name }}-{{ .envSecretRef }}
+          {{- end }}
+          {{- if .envVars }}
+          env:
+          {{- range .envVars }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+---
+{{- end -}}
+{{- end -}}
