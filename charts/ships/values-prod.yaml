@@ -10,7 +10,7 @@ services:
     runsOn: web-server
     port: 80
     targetPort: 3000
-  - name: redisService
+  - name: redis-service
     runsOn: redis
     port: 6379
     targetPort: 6379
@@ -26,7 +26,7 @@ deployments:
       - name: PORT
         value: "3000"
       - name: REDIS_HOST
-        value: ships-redisService
+        value: ships-redis-service
       - name: REDIS_PORT
         value: "6379"
       - name: PROD
