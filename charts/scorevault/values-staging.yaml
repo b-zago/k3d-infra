@@ -1,13 +1,13 @@
 env: "staging"
 
 routes:
-  - name: webServerRoute
-    runsOn: webServerService
+  - name: web-server-route
+    runsOn: web-server-service
     host: scorevault-stage.zagoapps.com
 
 services:
-  - name: webServerService
-    runsOn: webServer
+  - name: web-server-service
+    runsOn: web-server
     port: 80
     targetPort: 8000
   - name: redisService
@@ -22,7 +22,7 @@ services:
 secrets:
   - name: databaseEnvs
     runsOnList:
-      - webServer
+      - web-server
       - database
     data:
       POSTGRES_DB: AgAJ/tjMsRr2CvBW7ebm75MxeORqTmTtAPVFn7g3Z2YiQkIoTGWGA7414rQpEVDaLSu1TjoYfRVe6d1wIL1THTzBYxdwtOK6msbl+Esp63oJxHpdRuJGRpTxivjsvW9CYD7QUblI5aOTCBjeQX8MKhKvurvfQGEVgXpRNe85ZLcqJ47mHpOyGbU5R6RcqM0RqXSoRt5zW2BCC36pfixpNpAS2h5s6kajKdllsBkDTiQogvt6cFS5Y2SIFuGTbbuPszbYyDcR6kQ27uOmHJHmtd7gbB+7Oz1Ki+05Nt1WR41UMxtwsp7PnSJL3r65CdL9/OQvFNNT9wLKE0YvGq2BnHmmMWuuxM4q3XwTLvtRMJUILp70sJ0WPppkk4RwbgiFR9v0FxaAcJ0LXSenuRU8KS9/K8UXZ1MEYCI9xQqNPT8MvNXBdwUbN9X6CV/LFYQubSLrB3Ti9JHQXiGcNDSNlzSsZ0PiS6oxk+hXXGhUO4AhW7qrpm705hlmSC3BB+SXbDYp8cMHfKNFZhV1thfhQMfPtHf72a2Nu1jtiUtFBuqFGc6DIhx1PdIaIJPVBBsC0Lkr34pNENk2zatRuFc5ZqjOFrOZShG8YVLiY+SKnYTmFqNBFSnDV1q1zcwV8GB9wJ4asCmbk1vGPZcTVX7LUskt/9DJA1StrWcJyh9ZyQeTCbkjh8aXT+Cb6NBzmHARco8DrHa3cKLq0F3b
@@ -30,8 +30,8 @@ secrets:
       POSTGRES_USER: AgBUy+VWTYIg1ds8mNqyvcBcC9gwA88B1y/EdlFGDcTdS0OWSg727Z2Fc1hwe1vEfw3ph1Dj1mv0xhWjjJwdNmokiBEQkUGUaTmLDBFcfvoQomoqvJE6QzcPNtLnedEj9fPugTUgEXMUQJwKWtvEaexpbigQHdMISPUdOKhz0hcsqvi/cxlQ5W2srfBQvkY0w9ZQgeP+rQEoWSDqCLN7H6aHbqFw+Vv1TqZ7R+xHctjyyrsVWnR2LAlr/YfEi5cxOSfPTvAcGWfQxhS39oGTvQmP0IcLV37KrrXN2GW7g4nTwcecQC8MbFpglgD2t+UCvWFqj2K4n9EWQ58ixv6PURuWH2+wM5Bxm+KEJQ4qrYyResylMyJzvfbko7GeRb1r5O0/z3cjo7lPdtPR2vPDak8zBVY7WSqpi/kGX9IgJl3mEupunqRn+5MkWTf1ZPeHLsjDAWFs4K5zkNIpw4EWklOJplA3ZKc62qn9TcNrFsJ5OEYYQCY8xa4HyrnkqAVbThYLd2P294ZBaC2RtQGcAmc6rJ1IEVHR1sdkBOC9ovNZ2T5COzOs5jx/Dh6tDX0DKABvJcdcRI5LXbIQyTiTN9LyQrgzETqt6AhweTOXvwjc3BAvRkpxsfmaASdS4Dt7r7PVTJxQa/sT/jLKN+OUEpmAVdAVAtpv3A8QoBsgePLo4LicHqK4c4b4s4Eu68/oAKnxLUUPWUJD
 
 deployments:
-  - name: webServer
-    image: ghcr.io/b-zago/scorevault/webserver:latest
+  - name: web-server
+    image: ghcr.io/b-zago/scorevault/web-server:latest
     imagePullSecret: ghcr-creds
     runsOn: python
     component: server

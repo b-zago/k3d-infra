@@ -1,13 +1,13 @@
 env: "staging"
 
 routes:
-  - name: webServerRoute
-    runsOn: webServerService
+  - name: web-server-route
+    runsOn: web-server-service
     host: organizer-staging.zagoapps.com
 
 services:
-  - name: webServerService
-    runsOn: webServer
+  - name: web-server-service
+    runsOn: web-server
     port: 80
     targetPort: 3000
   - name: databaseService
@@ -16,10 +16,10 @@ services:
     targetPort: 5432
 
 secrets:
-  - name: webServerEnvs
-    runsOn: webServer
+  - name: web-server-envs
+    runsOn: web-server
     runsOnList:
-      - webServer
+      - web-server
     data:
       DB_NAME: AgB40b88PP27SU1DmPM2cGKyWjqaMhdUE96ebRn4/DIly9V+YFX81uMSh5jlGH1RrpY215i7qIqO/WrTSp1mLdzMQdyU8N2qlVtSbdbHijtnBN5RQYx8ERsXKFov6VCHH1/EORLvvx9KGurKwTls9rixt03Az0aBP9tAmzG2u6M+gCqY720BUPwVy0M4fzT7TD/EUv1td42od/HxfjKPnLdtDwzz5sHz7dzeieVxH5SEx+i/cBoKAS+qcZwHduKInlMLfPlWgNFcUuvkv0CiHbiTaBJO+Cp3jgVHue8Y3kkAWD5Kk+pndO8gJBSvDNDjfWdxcJzsQIUIv+t8oVrgOEngPwVHQP5GXvJOiB5uT9sMB/pFUqJQO6/qkmSOHwq3aLSuAEwxYrxGGINYmLUXiu4xJNrEGAeove44T2seGLa2i2WX5RUp4ULMFAlgbYp9P7Wsaiqp4gTpdKMZ7C7FXohrUZfkd5DARIJ+nAWmpqNXxVJToAsmMTb+eK+V/pU8SWmwnXxlpfzv/0njGipQB6e7UFzm6eF6YgK7sRE6aceUodXv4pQYQ7m+U/CDV1CZbbcOs6Jr7Ln7pmSTceXcTccY3oavj8oK3Gxn+KkVOBzAYPkL2cqMe5M90rysXa26797K4U0iBn/5nZfQryMIC0qDy/6fovB66Q+tsFu7iqdTQeaX3IplLm2VGrG/jirSjldG6siBkNtubBs=
       DB_PASSWORD: AgBqpOwqW0Cfzer66JNJf3uGC1fuwy/Kd5uNe9NWjJNnLUSMotybP0TdNcSDW/A/1qn8qS1mLKgDpsJRRf+P9QAAGRBBL0Fhcv5UA/49cWg1Py8oaWg0zIDGoTYa6DxD2KySCJB7Asmv8GbS4vrqPwCdZRSkQYFyN0EY73ayCsmW8jQX0Kdwwk4W7/QZLgDfoQhqpL9Y1WGVGmkyjKg2NcvVzSz+T4KnBA8bCwm3wc44Abo2lTaMt2IRklA6Yk41h0na+PbfvM2pgwzF98Twf+l/XQpal7Yj9y3XvkVzCej8AGylP+P5zTCwNt+RNtF55MXpHAcB23dmQf/Z7qd8+mbZiwqNntw+ll6Fq1l3G7R3QR19KmMebaHULF1+1GIPilq2hZoM0o+OgqwibPNp4huHtlY9yQFrAYmARwaqF/aHyg6ra3Cx0Do9B51L1b1U2Z8Skc+CLbNFlRSa/DijVuYtiRhVvLmVSwHjTPP8M/YeA1lmJPmxa0Z/owA0SUukjpNDNitiwcXpgTYK3RZIm1gPpKxGyNxd4ZDhzpCljg9hLwESPCD8HRy9DLJeoI7kFBLE8HInzIkvyQnPTetzt+A18GydrZDc3vNOaNG54rdrfBimzPqDKICRDU8aS7tCBTvgVdqqd+MOlb4YmiOVBQuTZ9kUCfThH97eP/PLEvaFjZ5Jz2YahFvnVoeTI7P1sX+M/tms3hJxXWXcOXPy1A6iAcbF8g==
@@ -35,14 +35,14 @@ secrets:
       POSTGRES_USER: AgA85bEmxX5kyzvwtx/kNZbOfRVfHmXm/CLNOg+7mfhjwsoOjKwT0DujMCYtdsPYaXgHPGc07Ax8SYDsxRKQpkP7gv+arQa55DytbbLcB5dPjLm4UL7inlWsowUD5lz61Sf70I22bA1UPiAR1Db1pjebnKoJIySJEfY0BVhGKJFEaE63pQZPyeGMO43RNsiHUX6VBukaq2TrTc8Oz3r7pwy73iUI0y4AstTBgFhYf0Nd1rVSxVqV8gMaRL62czj3fMshvqoV/UCmB5fmpXUFx1eCrdnvWoDBHlOB/LcCICygP7Vz9ao+Tp+o577Q7oiCezOv5ocnATZD7j6lArDHG78hdngqxNU5sVmy/W2J96x1bfTIRAnwY53L5pAtQEsdAoDlJ6xur5ZF0GWPJey8FOnFcn0l7jJAalXMapS+uJ1EY9JdOm3SSiqdLkHo8dJNBcpDpUX9pCZ3gWXJPVIQTjmR2U2l/juCROExqpp+WfaWlXgeamzMM/rOQL5yWfHuP3KKemf9Ya9peakSKveCPQf4dc5nWkxEpe9aTS1+7kjKxkK3Tulpr+SefFK056aohjaWdaZn9zApJnd3sT29IiZUCxk9RRw5/xkTmTjiNnzWBkViDhE5WQqc3EqJujYI0hGhJ/9rO1KIrEwS7NRID4n78YYHwwmk42C2VPwfndhiEZ1dN4Mxx+W+HqsEl/MThOf1j5XFPUAB
 
 deployments:
-  - name: webServer
+  - name: web-server
     image: ghcr.io/b-zago/links-organizer/server:latest
     imagePullSecret: ghcr-creds
     runsOn: nodejs
     component: server
     containerPort: 3000
     envSecretRefs:
-      - webServerEnvs
+      - web-server-envs
     envVars:
       - name: PORT
         value: "3000"

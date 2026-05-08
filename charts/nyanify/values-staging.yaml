@@ -1,31 +1,31 @@
 env: "staging"
 
 routes:
-  - name: webServerRoute
-    runsOn: webServerService
+  - name: web-server-route
+    runsOn: web-server-service
     host: nyanify-staging.zagoapps.com
 
 services:
-  - name: webServerService
-    runsOn: webServer
+  - name: web-server-service
+    runsOn: web-server
     port: 80
     targetPort: 8000
 
 secrets:
-  - name: webServerEnvs
-    runsOn: webServer
+  - name: web-server-envs
+    runsOn: web-server
     runsOnList:
-      - webServer
+      - web-server
     data:
       HMAC_KEY: AgBqySPJK8wC5QoZvkiGQYmZqvWYqjnnxZqxhAt0XYRDWllYwwRdPuHYiS4Ns36YWsjxl9cGe9AbM1AuR6e3yE4FBSF59n9r+/x7lESfc4pJDCyKKFDGBCtq9A6Y8wfgCdX7lvOJG4kU+LvbU1gPf0JSO+bkumbj41fyinhFmz2+B3qWFPqs8IUOCVlr6aZM4NR500xjT1w0S23MBPsmdQKsNHvBwAOBV0Cp+ufv1ooRc/QUIOIEdAUCpdFyV1npMc43dstDKUsGxUAAWYBCjzPfz8MoamyCISdx8GiGLN9Af80aXSjyejMmyImJU7t3tYcngXFL5WdE959ESJYjPeromUfWm/TBFo5AlPl0wq/ppDQN/3PWBU+LVO/vPzHWfM8vyG32b9UIT5JisuGZRj2vc4MI63ijnScrcEsCYAdbq4Dmu350mHzGOaGzr1SWGTAshtNYAuDvKM1yanM2p35jC2B082IibBvlZYmgSps3KySQTVD+/27TMoVneJ3zdU4FZ/qfiI/caNbtomEp8CB7cBaQ2MU9G76Asc/vBRUrWIw1Zbezv/W8jlyUIISinPQ6ZyVRwlMIieIMCcJuDCJ+pSDgDTP5MNdR1nnIb74/+UrKCfVu00EfGZv8u2+LaISTe5L0dovAEieIIigOf/pUu7xDNxDUKYduGzTEYNC0lUf4gZYJ61TQYXRgpjtxmfvbVTVeEQ4DxZB6fPGctn9pxMEItK5hEnnIC0fDYRJiE2eXMjoBNS1DhwleTm1xgMxlKm2fEwViCL6AHhOLOS2m
       TOKEN: AgBcD+C3GdoE0p/6yyAGdOJHbSCtwaxxxfB8O+3SxS45mKHAbAvR9AnQLh/4wpLSvf1ye45U+Q09AGSr2/IULI0RnmLbNMDzs52hTZuJN5sDC58k0H0O5HwPJVih0/aOTm9YTWrr9Ra8O27OcVPrWwTM/koA8W5WwJLK8xiWMx4ykvFENArhco2rMjfRaVhgTj+h3ZQBSvGvHp/2PP+dUrldGM/d28DHQWAI7ceGl9j8dkGH788RzKN4zLMRx5KmhP8Q1FaOpeB5s/Pnz9wkavdqfoGkTYLZPavQe4oc4LJRwzphKTRLdQCbeOsleuriS0uGZ6awZBxZ5iphWZE76L0ZV/vFNuYfV4Xt1BoXyeWHyaajwO/aug/zZqUcmU9LzYTcPBfuFfcmURMDozU+7yeMAAizwp98gv6UjZMUQJtQmOn0c1zwxbC2T8bGYmZboyhtugbHBVwUi2YpoQ4LbrUH66I0cJ3PUY2V4vaV2Lhbv0Rh9Tq9KHKLaiZe8mP4CfOCRiWqNHk2ELsh+puS6+SdVSK8NO1i0dYyvEE6N/z9JsyNvdRWrYwBBhOnVNGzKfwA5W8nZ3XuC6lpUioQEI9ZHxLAJjDT87Q+/X15WFtsZvQrvFKWboo5leY8YwMjQtQ65UG0VpQIk1nHVBUWnnyGah6IyvR1nesAkLAGsQX2FXytrkdUuliJGDkgGGbWBX9ISZ+DQ7Jf8a1LOAXJrsJq8TPdCaFf9pLaJwbYNYY0kZ9kZLZur/w+oKgLcit1d1AaioKSvlR2+roigTJmL7LFWbPdXWAxMhM=
 
 deployments:
-  - name: webServer
+  - name: web-server
     image: ghcr.io/b-zago/nyanify/server:latest
     imagePullSecret: ghcr-creds
     runsOn: python
     component: server
     containerPort: 8000
     envSecretRefs:
-      - webServerEnvs
+      - web-server-envs
