@@ -1,6 +1,0 @@
-key:
-  staging:
-    - chartPath: charts/scorevault
-      appName: scorevault
-    - chartPath: charts/portfolio
-      appName: portfolio
