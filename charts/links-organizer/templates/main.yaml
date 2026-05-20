@@ -1,5 +1,5 @@
-{{- include "rikami.deployments" . -}}
-{{- include "rikami.statefulsets" . -}}
-{{- include "rikami.routes" . -}}
-{{- include "rikami.services" . -}}
-{{- include "rikami.secrets" . -}}
+{{- include "lib.deployments" . -}}
+{{- include "lib.statefulsets" . -}}
+{{- include "lib.routes" . -}}
+{{- include "lib.services" . -}}
+{{- include "lib.secrets" . -}}
