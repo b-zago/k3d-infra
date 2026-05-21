@@ -1,31 +1,27 @@
-env: "prod"
-
-routes:
-  - name: web-server-route
-    runsOn: web-server-service
-    host: nyanify.zagoapps.com
-
-services:
-  - name: web-server-service
-    runsOn: web-server
-    port: 80
-    targetPort: 8000
-
-secrets:
-  - name: web-server-envs
-    runsOn: web-server
-    runsOnList:
-      - web-server
-    data:
-      HMAC_KEY: AgCJX+lQFLqJpe6oQh7C7VrjaY0PUKClo8Pcl2afNYcenD1c4eugkX0wiZfLas0VygIXeWlF1R8RB2bLTK4qL8MLuu3PwLUlUwgpMK+8aKg2xdQ+1+/3U0PjAg/O/DUO4G6ItukUCH7S8Q+4IpuCdTRtY55yhqnNwcMsfTV3HDvqRMleD6Z4ocY6TI/gjpxIASycCwe0JMegxj0eNFsBuHnHrx5w3enF3GZxnMajx3hbOcq0lo4RNwzT/eOd5xapNjlQEmEDgSpDl3KPaqSVmi9Oz1rfA/pU+uzl3qxMKI3Fh5O6LyhzwoH1kwBR0utO5bZMJ35Tmd/8vij8mwKmfohN3xx3SQDNTLtSZrUXbzwXyU3wXQ/9fsSWFxSICNIMbLs0vIYD4LtLfMUxp3MZ2qa1T4hcQgwr2qDlfOyoaFaOyxriKVFAEV+adkBHGVYXKccbf4gJZ+y+2kXDms2aEjZWGQH8nra3Z92w9r7L/MHu98g5zGhui/wycKI26PGtZviB6Rb/RWp5uk6SyYau/M3Tlz1TZ+gxsSHT/Lz2Tmr3B0Rp3OMoBX60Pp25JIq6mj9+WYr7T63qWM7CohtAEfMoVQ/fIpCb+wlCfFwFsnjV9xhlI9SeVKT/bxBjcykfwm8o3HHCAY4vjnGo2lweM1saxt6z5OhBjcSYSjHJgQHZcV1ZWzR7vojlITyiK0iESfFAZvR1LADSdNI4LyfMeEfMzikGq2woOlrrkyWMDUuVGbJCPZtb0bU6NAUAO9tK4mm5yqILeBLGNB6ZUGeEBAwW
-      TOKEN: AgBHv5IP/zejw6tJObNA71T0LcdCsTjfkv5iAAd3ZBRbNgwT1M3HUQl21DTF0MMzhYwtt1UptFsNkIvxqQKi2Lia4Kv//zy1AKn3WxQmSbqGsLo3AL2fY8H0mOPe5ssKj2/ljq+a7AovsnpmZzgUueA73LzELATvS7wKn9+PklItJFv6O5+WErd5Q8Gi/SY/gNQK0KdteDUk4FKKHKZy/FWNBDwuX2YrIgDKrS3UHBiWIhKJsIrLktV/VPgxN8VcVRCaI6uFw6T35bgQQr1GXdBp32OWg/i9oz1sA5sYlbZoDHZGRAhjtOSKYW9H7qMQk3/mh0x4ODAhxS7oSuLWnyp8K+/hapZk702yNiPHye9R/GaX+ZXgxMJqJKbh5MljLH31BthvG2p/SI2N0U2XARpgguck/E2hux/USdhmYxPw5vo55KgWEhHyspRzSd6hkTz/l+qL1ppmOT4HMLfyUBOyCZEG6maNtS54LdvfU3S+UGYuHCtYuWHEg8L5MCzKg6XwutLUCZAI/1GTgVN+sF49Az/TcKm7bhNjREcjspmEFbi4ElZ5bvYXQUxiGJH4mbXwsxMadX/D/NaxAX1fqIoEcBNzTd1iuscxZvlOrvqd/DEsdjBueEVpRFYugKMBYCIhWVsFueDbovitq281TKwbzjOWirYYP1wFB+vm9BwqQ8fS8u3iPsNYYLWeczlC4o2mg6VSxwYuHwa80HhjLNCtcV6Pnom7YndcYeYwoZCG9aAkrnY1F8CcC95GSnwHZpfhFHE2YwVbbPaP1ohegsxyxJliH226nWQ=
-
+env: prod
 deployments:
-  - name: web-server
-    image: ghcr.io/b-zago/nyanify/server:latest
-    imagePullSecret: ghcr-creds
-    runsOn: python
-    component: server
+  - component: server
     containerPort: 8000
     envSecretRefs:
       - web-server-envs
+    image: ghcr.io/b-zago/nyanify/server:latest
+    imagePullSecret: ghcr-creds
+    name: web-server
+    runsOn: python
+routes:
+  - host: nyanify.zagoapps.com
+    name: web-server-route
+    runsOn: web-server-service
+secrets:
+  - data:
+      HMAC_KEY: AgDnpqD6/m7cIU+7VHCHyvU+bPOIrDxTRQBQV/iJDDLssafOC7+6eJWMRbF5/5uMc+3TnJleH2mSSCu7XdwUoxoLvCCGRwvuXvlkHhm5MN4vKmsQVLyMbs9H9efx1IkJ3bOXVKT9+k0Jvmj4WhMFwGuMQe7B2T3FLEezuOiXYYQdbE15FgtyWQcvzV1bUwGykeFxrl6AgDXlyn6gydW4VqneQ6gYOqgY4x02si0KCr8rPAGCMJ4INBH5bpZPPDA6tpNCWRKmxKss22PuhgeeSG1qlOEcGOpDhpVBQjtkh97eRxDSw9p1YU/yMBfODRD4CkIAy2q0QvzFMUCWi7ACpUYx7oRK9zHIyPi7ByFqBOUXCXdsGcuERUuFnXoBxJmahNzIP0QW1EAF6UwBoRp6a/BB/uilVxNINLFG2wIqt8qqwxGcFsgXVLPM+ksAGByMTazM4751Itw/ior2TexO43zDWkqSNPh+S5G+cHVXCDCTknfN/Z6GvOCR8BXKyJ3UTe0kUj5JtDgz7WJgW5SPSj3il3A44IPdvp1U7HjUZQ/DzFTU/PaPHh1K4pp7/fnTngrix8ow/fnDBiWneRpv1lphY6F6dw1pWZw1dywrE3WlD70ItRYvOx8gsOvPArDZ79uEdw+UZUplQ896YRrIBHqxMdn9LOGo8KkrSOMv+9dppusJsG++E6S7OIu6282kWs75+tQW/9wH1tHDagvgiTBviH7npcP2uQdYc84AVUqk7yQYU0fLPeeTEKAdTZERq2YwER8uAxK61X4IOAepmisn
+      TOKEN: AgCcGnuDSvvPwIHV3jc8bNns/A9bZ9c//yTR95k0aJH2HyRKbzdHkgnsWJR/vvHka7p8FFNGQcSFxJGQW/d6aWJSW3jGeel5AXhbAqyZfTbfKP7lHxOZi7J9n8zTSHk8r5QkEi48pcY6i2rcoh69xTMu1lzBSq4m+/cjaOjTGB26WNuIsQ8nYYPEhanm/j/Hl+PE2MzM/4DgrJhIiUjvJF3Nu5q3KOkvJLPEwSTGXpSVRESChWQa27E5t8/IpYtT03lVWs2dqQ+c2L7FqEx3KoxtHxphOev7Gml8fsx45xpYwuI7ea/X3j4S06yko/uu2fjghJxynh1RTPS/iMvnj271nhMb0Wc+piFpLb6/a75r/CGRbNJl7LRbCFRypaVP6pqvg8F7evCrIgfy2O6c5f1WjWhIyUl9EumWaT2QPQLOUlRpIHVW7p0i8NCNnxkh7BBDHPqxfZHChtCQk37S4OBAGhFuu/cWGiB17i1d1T6BBWq00LD2qkc/n59x/rVBl74q+Smpr8PKY9C+lp7ryHE+/t5IofhoaA04dNsm4bQgUP9UTOs4zC8/enBWerXlsX02TTDriH9Ogp7R7R4ziqrHGErFehUY237tprZKOH6zVj5ABWkg1WUDHr+jpXcAvGa7zVbI5Boj2mPEsReLIq2A1dvAAHE6G232Tqf0wRKVGXMGT2JnOw6eyqD1By5zP1K3u/1iobZ/R7/xb8pgWv8npqu2Vsd7/WcMpiFDDMHIYdtVwrsKnee8Sa2MCwZEy/rJhpm/pIAuwKKusdKRJIJPrlMZEMyjSqE=
+    name: web-server-envs
+    runsOn: web-server
+    runsOnList:
+      - web-server
+services:
+  - name: web-server-service
+    port: 80
+    runsOn: web-server
+    targetPort: 8000
