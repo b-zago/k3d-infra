@@ -1,6 +1,6 @@
 # k3s-cluster
 
-My k3s single node cluster with GitOps dpeloyments.
+My k3s single node cluster with GitOps deployments.
 
 - [Repo structure](#repo-structure)
 - [Tech overview](#tech-overview)
