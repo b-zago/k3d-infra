@@ -11,9 +11,9 @@ deployments:
       - database-envs
     envVars:
       - name: DB_HOST
-        value: database-service
+        value: scorevault-database-service
       - name: REDIS
-        value: redis-service
+        value: scorevault-redis-service
     image: ghcr.io/b-zago/scorevault/webserver:latest
     imagePullSecret: ghcr-creds
     name: web-server
