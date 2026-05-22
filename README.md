@@ -1,6 +1,14 @@
 # k3s-cluster
 
-(description coming soon)
+My k3s single node cluster with GitOps dpeloyments.
+
+- [Repo structure](#repo-structure)
+- [Tech overview](#tech-overview)
+- [CI/CD](#ci/cd)
+- [Deployments](#deployments)
+- [Secrets management](#secrets-management)
+- [App of apps pattern](#app-of-apps-pattern)
+- [Labels](#labels)
 
 ## Repo structure
 
@@ -19,28 +27,20 @@
 ```
 
 
-## App of apps pattern
+## Tech overview
 
-To make argocd fully watch and apply every manifest in the repo automatically i decided to implement the Apps of apps pattern.
+- **Traefik** as GatewayAPI and Ingress controller
+- **Sealed Secrets** as secret management in repo
+- **Prometheus with Grafana** as monitoring stack
+- **Cert Manager** with dns-01 challange-response automatic certifications
 
-It all starts with the [ root-app.yaml ](./cluster/root-app.yaml) that wraps the whole cluster directory. Every committed change in the files inside [ cluster/ ](./cluster/) gets picked up by argocd and synced. Since root-app manifest is also in the directory it also watches itself.
+## CI/CD
 
-For example let's look at [ infra.yaml ](./cluster/infra.yaml) which watches all the files in the [ cluster/infra/ ](./cluster/infra/) directory. It contains essential resources for the cluster to function such as [traefik.yaml](./cluster/infra/traefik.yaml). If I wanted to upgrade traefik chart version I would just bump the version in the manifest file and push. ArgoCD **infra application** will then detect changes in the file and will apply the new version of traefik chart. Of course if I wanted to add another important resource I would simply create another manifest in the directory. ArgoCD will pick it up and apply automatically.   
+Pretty straightforward - Github Actions build the docker image with sha tag and then the tag gets updated inside values-*.yaml file in corresponding [charts/](./charts/). ArgoCD then sees the change and applies it.
 
-I really like this approach since it enables me to only modify/add/remove manifests locally and when I'm ready I can just push to repo and ArgoCD will take care of the rest.
-**But most importantly** my repo is the exact description of what is currently applied on the cluster and when something unexpected will occur I can always revert.
+I use reusable workflows and actions across my different repos. You can find them [here](https://github.com/b-zago/actions).
 
-## Secrets management
-
-I manage all my secrets with **Sealed Secrets** [(project repo)](https://github.com/bitnami-labs/sealed-secrets) to safely store them in my repo. It encrypts my secret values using a public key, which only the controller in my cluster can decrypt with it's private key.
-
-### Implemented
-- Automated secrets encryption with my own [rika](https://github.com/b-zago/rikami) CLI tool
-
-### TODO
-- Automatic secrets backup to a secure bucket
-- Automate key rotation
-
+For more information about charts themselves see section below.
 
 ## Deployments
 
@@ -53,7 +53,8 @@ During my work on this infrastructure I've noticed that every application that I
 I got tired pretty quickly of copying same files and changing them only slightly over and over so I came up with my own way to automate that process.
 
 ### Library
-I've built a Helm chart library which contains of most often used resources (such as deployments) with pre-defined labels structure. The library is built in a way that it will automatically "bind" resources that depend on each other like **Services** to corresponding **Deployments** or **HTTPRoute** to **Services** given the correct values are provided in the Helm chart.  
+
+I've built a [Helm chart library](https://github.com/b-zago/rikami-charts) which contains most often used resources (such as deployments) with pre-defined labels structure. The library is built in a way that it will automatically "bind" resources that depend on each other like **Services** to corresponding **Deployments** or **HTTPRoute** to **Services** given the correct values are provided in the Helm chart.  
 
 ### Chart generation
 
@@ -68,12 +69,51 @@ You can also combine these templates together which can create application syste
 
 Of course we can customize everything pretty much however we want with custom functions in the template files that are understandable by CLI.
 
-The example above is really simplified as you can do so much more with [rika](https://github.com/b-zago/rikami). (<- to read more) 
+The example above is really oversimplified to just get the idea across but you can do so much more with [rika](https://github.com/b-zago/rikami) to generate whatever application you want.
 
 ### ArgoCD syncs
 
 As [appset.yaml](./cluster/workloads/appset.yaml) watches for "values-*.yaml" files in the charts and when it detects a new one it automatically applies it to a corresponding namespace. (staging/prod)
 
+## Secrets management
 
+I manage all my secrets with **Sealed Secrets** [(project repo)](https://github.com/bitnami-labs/sealed-secrets) to safely store them in my repo. It encrypts my secret values using a public key, which only the controller in my cluster can decrypt with it's private key.
+
+### Implemented
+
+- Automated secrets encryption with my own [rika](https://github.com/b-zago/rikami) CLI tool
+
+### TODO
+
+- Automatic secrets backup to a secure bucket
+- Automate key rotation
+
+## App of apps pattern
+
+To make argocd fully watch and apply every manifest in the repo automatically i decided to implement the Apps of apps pattern.
+
+It all starts with the [ root-app.yaml ](./cluster/root-app.yaml) that wraps the whole cluster directory. Every committed change in the files inside [ cluster/ ](./cluster/) gets picked up by argocd and synced. Since root-app manifest is also in the directory it also watches itself.
+
+For example let's look at [ infra.yaml ](./cluster/infra.yaml) which watches all the files in the [ cluster/infra/ ](./cluster/infra/) directory. It contains essential resources for the cluster to function such as [traefik.yaml](./cluster/infra/traefik.yaml). If I wanted to upgrade traefik chart version I would just bump the version in the manifest file and push. ArgoCD **infra application** will then detect changes in the file and will apply the new version of traefik chart. Of course if I wanted to add another important resource I would simply create another manifest in the directory. ArgoCD will pick it up and apply automatically.   
+
+I really like this approach since it enables me to only modify/add/remove manifests locally and when I'm ready I can just push to repo and ArgoCD will take care of the rest.
+**But most importantly** my repo is the exact description of what is currently applied on the cluster and when something unexpected will occur I can always revert.
+
+## Labels
+
+Labels for prod/staging are entirely handled by [ rikami library chart ](https://github.com/b-zago/rikami-charts) automatically when correct values are provided.
+
+I've chosen following labels for all of my prod/staging workloads:
+
+- **runs-on** - describes what is being run on a resource (example for deployments/pods nginx,python,nodejs and for resources like secrets the runs-on-* (example runs-on-webserver=true) applies since they can be technically run on many different resources, however you can pass in helm regular runsOn either way.
+- **part-of** - the name of a higher level application this one is part of (ex portfolio)
+- **instance** - unique name to ID a resource in an application.
+- **component** - the component within the architecture. This name should be pretty broad (ex server,db,cache or httroute, service)
+
+For argocd applications and appsets:
+
+- **part-of** - describing which app watches that application in the apps of apps tree
+- **appset** - if this application was created via an appset, this will tell exactly which appset it belongs to
+- **part-of** - similar to regular workloads, describes a higher level application in regards to the tree
 
 
