@@ -4,7 +4,7 @@ deployments:
     containerPort: 8000
     envSecretRefs:
       - web-server-envs
-    image: ghcr.io/b-zago/nyanify/webserver:latest
+    image: ghcr.io/b-zago/nyanify/webserver:71e2f0d
     imagePullSecret: ghcr-creds
     name: web-server
     runsOn: python
