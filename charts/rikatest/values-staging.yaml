@@ -1,0 +1,53 @@
+env: staging
+deployments:
+  - component: server
+    containerPort: 8000
+    envSecretRefs:
+      - database-envs
+    envVars:
+      - name: DB_HOST
+        value: database-service
+      - name: REDIS
+        value: redis-service
+    image: ghcr.io/b-zago/scorevault/webserver:latest
+    imagePullSecret: ghcr-creds
+    name: web-server
+    runsOn: python
+  - component: database
+    containerPort: 5432
+    envSecretRefs:
+      - database-envs
+    image: postgres:18-alpine
+    name: database
+    runsOn: postgres
+  - component: cache
+    containerPort: 6379
+    image: redis:8-alpine
+    name: redis
+    runsOn: redis
+routes:
+  - host: scorevault-staging.zagoapps.com
+    name: web-server-route
+    runsOn: web-server-service
+secrets:
+  - data:
+      POSTGRES_DB: AgB6aF3l5p5QyAByw2Iu3aobml3SjrCH7uJsZulecsg3tSPcCqxonQI6fiTdPadhUhKqTgxPY264Qo7nGQt/+glXBiQaY6B02KSk/eOTqAskc52qn+hpCTLxhIP1lmFMfO9XsOtnseQltOu3y7EL3P3RwCzv7CCObUWCmFnKopwBiSvjVgmxmv/2xKe4nV8V9lyfQWCAypwIpHANTnF+57lYR2IajmBPV/sBlHYKiCw/c+9DI2LIUsrZqMhwi4c5jrWkNCUeYPVvU9HtkwiKWnJkZY7iMEj/qrBaKTgeOXMu2aTgvrtkkDmlxIqW6xkCJib8XFzacpG7WsIzuyVwlUNgqB8o3CKnAyhACadCQj2E+yFRvUD94DGJnTUOv0jcseAkFyZUjsFyxkExrGZsXvEhV5rLvbXukOsgkE1Cby+ppWItsx4aiwBgP20D6oL7Xd4OYMX7h3xFmWmOhbHSVWU5LEPdXkBK2CXtV6Psnz6ZbiG2QN2Zb3GR4Thl7V7kDyDlGa8IfmXs7rSqBypKfUWfjkSVCMBMN/Qjc43EQwwMqEIByMpWAMhVzhmZ6VSotza3zwnUnEwKepLnDlrofvd35c067GwUXMaaDo8taTUbiHwyG+9ZBOvF3B0ltTE7hGc7wfY/DU4mM2TkjAotK/74d5HOQsagWeWvd5jaTUCDZOTx092+cjLNkufS865z3/8dqqERRPaYqxK1Pits/k5J
+      POSTGRES_PASSWORD: AgBcNtw5FaQ2f6wqXQZbyyiDXhW3iImLev0+tVkcB8TPncthBj4BwlLxD4y/iss1lhw5nuEoPZlNYprskureZm2u33Md+7Y8fv1z42tLGFhheGoPhOUjKxFHRzAFbtGeEUxdTyIZEJtUCCoYLzPiH90ZcmJR8BbmU9igZpd8vuZq1LsGzr/m87K+o3/6GMx3QUyGmS0ciB6nS2Oem4HpyGhxPXfcRf1qixHqSXuNXrBbouLG2yd9kMEAHBWjonO9hfzufhTpJxvM/iZQdTi6AOUCKfjbCu5yaxliRPb987+bZDiDaDDt3k0kCJBo74Sko7CRjEgEy66UbmewCSmYfVOqewWIQR9V09gjV3b8OMrwQ89c73ajmQ3IhmjQSLweXYtTIkn4DzK2iZ2FZB5BKXNV2xsp6rc1sGtadKToMgeuYSijzXbBJfvQFtGnWYT3Dq/GpkD2NVQWgNtLzadxcssfQ4umI2VA1o2uZg9Mr2CNICd2RbzJk9xijkkIUeJ+JY/ejd5zogktbqIXMCuPHL18JSvr8QD3OF1c2ZDJLoTvkXA/uRbb8WpOnDddtHWUxStkfJns55pRcGPgjGtwqP5juktAQLwP3wbt39eMAdwjyk9/8desswcBBTbzpDjCBKST9WOxGWLTYgPl3QszOKpoypKgAEmZOClk9+hd1+m69GpU8XGxz01BFs6+c3E3BqCve7KvV7g1tFTFe0XlyQ1X
+      POSTGRES_USER: AgAK3dBanL25K6ngOw4cXZ/id1hK2nWlnB4nvGoHRgHLdPurrE3AJ9IRS0EaMCsbdlpHdOVOJ6Y8Jq/7J1TtFk3zehX1BIXw+CKDEg3pG7VaPXnjZI6BJ8aTDXyLF9P9KoXe81Iue2CVSYjw5KpEqIHR6BkfHaAlCoIkT01CeS3adGppCZvxS7Qks9d4krZQzXl63jqvJpdQVZ7/LUxvlTIi/3zhOuEVfZdRH/c4zZL4mMuPSVafCT3GvSgu/EdomeDjwVKIiqxAOpnFfozVVlBXQTXaYRCVRNlVBrE4EglzX7/qE+WqvAU2FauCdvceaTD/dyt26KZTbkXbmtbGf+QdjMSmeriuSdApUJXW57b+TKqrkEeVoB71tBKInv+EhxuBLoo8B5F0dy6mTNsBnf9hDEbBo0OzmtzrkN4wHwM3x4cMykudlxGYpurdERuSWY8t3IE2INv0wYxZnsC6mR9CtAhv4fEB2uJ+LyewphIFOt1/EFfx+9VlrjV1cVFitdQACFA167/rB4rrm7U9vPtxIhWgV8cyipR9XmD5aaGgaTy8rHyCscD+LpK5oMxhKkqHAnSEV45KJmIQMAfmpD36arc1ab2hsSYy9K4K/QF7rl4Ott5lRJfAvQawzF+Yd6wHT+6t+TI84FazyZ+dBqxYd/a3KiE876T0yrN70gUf+Xdg9GvoKyI3GBWFSj2nDSQDwWclg6kx1BKDDVVO8O8b
+    name: database-envs
+    runsOnList:
+      - database
+      - web-server
+services:
+  - name: web-server-service
+    port: 80
+    runsOn: web-server
+    targetPort: 8000
+  - name: database-service
+    port: 5432
+    runsOn: database
+    targetPort: 5432
+  - name: redis-service
+    port: 6379
+    runsOn: redis
+    targetPort: 6379
