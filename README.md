@@ -54,14 +54,14 @@ In short, deployment workflow looks like this:
 
 More automatic via api:
 
-1. Generate an application's configuration file using pre-built presets with the help of [rika] CLI that uses my custom made Go's template processor.
+1. Generate an application's configuration file using pre-built presets with the help of [rika](https://github.com/b-zago/rikami) CLI that uses my custom made Go's template processor.
 2. Push that generated file to [rikami-api](https://github.com/b-zago/rikami-api) repo under `resources/` directory.
 3. Use just one command to generate the Helm chart from that file (that uses [rikami Helm library](https://github.com/b-zago/rikami-charts) to generate corresponding k8s manifests) and push it to this repo automatically.
 4. ArgoCD picks up the new directory created inside [charts/](./charts/) directory and applies the generated manifests.
 
 And locally:
 
-1. Generate an application's configuration file using pre-built presets with the help of [rika] CLI that uses my custom made Go's template processor.
+1. Generate an application's configuration file using pre-built presets with the help of [rika](https://github.com/b-zago/rikami) CLI that uses my custom made Go's template processor.
 2. Generate the Helm chart from that configuration file that uses Helm chart library to generate corresponding k8s manifests.
 3. Commit and push to this repo so that ArgoCD will pick up the new directory created inside [charts/](./charts/) and apply generated manifests. 
 
