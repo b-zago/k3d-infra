@@ -2,7 +2,7 @@ env: prod
 deployments:
   - component: server
     containerPort: 80
-    image: ghcr.io/b-zago/pjetras-portfolio/webserver:8959e5a
+    image: ghcr.io/b-zago/pjetras-portfolio/webserver:485f35e
     imagePullSecret: ghcr-creds
     name: web-server
     runsOn: nginx
